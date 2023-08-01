@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  service-skeleton:
+    container_name: skeleton-service
+    image: springboot-application:latest
+    build:
+      context: .
+      args:
+        - ORG_GRADLE_PROJECT_artifactory_user=${ARTIFACTORY_USERNAME}
+        - ORG_GRADLE_PROJECT_artifactory_password=${ARTIFACTORY_PASSWORD}
+        - GRADLE_ARGS="${GRADLE_ARGS}"
+        - GIT_REVISION="${GIT_REVISION:-0}"
+        - APP_VERSION="${APP_VERSION:-1.0.0}"
+    ports:
+      - "8097:8080"
+    volumes:
+      - "./src/main/resources/:/app/resources/"
+    environment:
+      - JAVA_OPTS=
+        --server.port=8080
+        --spring.config.location=/app/resources/application.properties
+        --atlas.auth.ca-cert-path=/app/resources/certs/ca.crt
+        --atlas.auth.public-keys-folder-path=/app/resources/certs/services
+        --atlas.auth.private-key-path=/app/resources/certs/private/approval.pem
+        -debug
+    restart: on-failure

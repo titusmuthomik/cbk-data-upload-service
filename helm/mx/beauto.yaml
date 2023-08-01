@@ -1,0 +1,52 @@
+nameOverride: "beauto-springboot-skeleton-service"
+fullnameOverride: "beauto-springboot-skeleton-service"
+
+# PVC Claim Mount Certs
+persistence:
+  name: beauto-certs-efs
+  enabled: true
+  existingClaim: beauto-certs-efs
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mounts:
+    - mountPath: /datadir/
+      name: beauto-certs-efs
+
+# GlusterFS mount
+GlusterFS:
+  enabled: false
+  VolName: glusterfsvol
+  mountPath: /datadir
+  VolPath: "myvol1"
+  VolEndPoint: "mx-beauto-gluster"
+  Permissions: false
+
+# Container
+httpsPort: 8443
+extraTCPPorts:
+  yesbank: 8443
+
+# Scalability and Stability
+replicaCount: 1
+maxReplicaCount: 1
+
+scalingMetrics:
+  targetCPUUtilizationPercentage: 90
+
+maxUnavailablePods: 25%
+
+# iamRole
+#iamRole: arn:aws:iam::132308548088:role/k8s-beauto-springboot-skeleton
+
+# Environment
+environmentShort: beauto
+environmentFull: beauto
+
+java_opts:
+  --http.port=${HTTP_PORT}
+  --server.port=${SERVER_PORT}
+
+
+env:
+  HTTP_PORT: 8081
+  SERVER_PORT: 8443

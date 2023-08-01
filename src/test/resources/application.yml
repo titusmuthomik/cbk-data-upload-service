@@ -1,0 +1,70 @@
+spring:
+  flyway:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:crypto_wallet_test
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+  jpa:
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    jmx:
+      enabled: true
+
+region:
+  code: CO
+
+server:
+  port: '8097'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      base-path: /
+
+logging:
+  level:
+    '*': info
+  file:
+    max-history: '2'
+    nodeValue: skeleton_service.log
+  config: classpath:logback-spring.xml
+
+atlas:
+  auth:
+    service-name: approval
+    ca-cert-path: src/main/resources/certs/ca.crt
+    private-key-path: src/main/resources/certs/private/approval.pem
+    public-keys-folder-path: src/main/resources/certs/services
+    protected-urls: none
+    api-keys: []
+
+survey:
+  service:
+    url: http://localhost:8091/survey
+    requestTimeout: 30000
+    connectionTimeout: 5000
+
+crypto:
+  service:
+    name: Crypto Wallet Service
+    host: http://localhost:8090/crypto
+
+stellar:
+  horizon:
+    url: https://horizon-testnet.stellar.org
+  friendBot:
+    enabled: true
+    url: https://friendbot.stellar.org
+    requestTimeout: 60000
+    connectionTimeout: 5000

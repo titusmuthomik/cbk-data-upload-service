@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: Springboot Skeleton Service
+  main:
+    banner-mode: 'off'
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  pid:
+    file: springboot_skeleton_service.pid
+
+http:
+  port: '8081'
+
+server:
+  port: '8097'
+
+logging:
+  level:
+    '*': info
+  file:
+    nodeValue: skeleton_service.log
+  config: classpath:logback-spring.xml
+  logback:
+    rollingpolicy:
+      max-history: '2'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      base-path: /
+
+atlas:
+  auth:
+    service-name: approval
+    ca-cert-path: src/main/resources/certs/ca.crt
+    public-keys-folder-path: src/main/resources/certs/services
+    private-key-path: src/main/resources/certs/private/approval.pem
+    protected-urls: /api/**,/callbacks/**
+    api-keys: []
+
+service:
+  name: Skeleton Service
+  host: http://host.docker.internal:8097
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs

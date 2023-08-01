@@ -1,0 +1,17 @@
+.gradle/
+/build/
+/allure-results/
+/bin/
+
+!gradle/wrapper/gradle-wrapper.jar
+*.gz
+*.log
+*log*.gz
+*.pid
+
+### IntelliJ IDEA ###
+.idea/
+/out/
+*.iws
+*.iml
+*.ipr

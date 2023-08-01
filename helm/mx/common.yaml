@@ -1,0 +1,89 @@
+# Healthchecks
+livenessProbe:
+  path: /health
+  port: 8081
+  initialDelaySeconds: 360
+  periodSeconds: 60
+  timeoutSeconds: 60
+
+readinessProbe:
+  path: /health
+  port: 8081
+  initialDelaySeconds: 360
+  periodSeconds: 60
+  timeoutSeconds: 60
+
+# service account
+serviceAccount:
+  enabled: false
+
+# set prometheus
+prometheus:
+  enabled: false
+
+#DB Migrations
+application:
+  enabled: false
+
+#datadogAPM
+datadogAPM:
+  enabled: false
+
+cliHealthCheck:
+  enabled: false
+
+# Container
+containerPort: 8081
+adminPort: 8081
+
+#Disable PVC Documents Mount
+persistenceDss:
+  enabled: false
+
+# Docker specifics
+image:
+  repository: 004384079765.dkr.ecr.us-west-2.amazonaws.com/springboot-skeleton-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nodeSelector:
+  kubernetes.io/role: node
+
+tolerations: []
+
+affinity: {}
+
+#securityContext
+securityContext:
+  enabled: true
+  allowPrivilegeEscalation: false
+  fsGroup: 10001
+  runAsUser: 10001
+  runAsNonRoot: true
+  readOnlyRootFilesystem: false
+
+# Ingress endpoints
+ingress:
+  enabled: false
+  annotations: {}
+  path: /
+  hosts:
+    - acceptance.local
+  tls: []
+
+service:
+  type: ClusterIP
+  port: 80
+  admin: 8081
+
+# Resources requirements
+resources:
+  requests:
+    cpu: 500m
+
+scalingMetrics:
+  targetCPUUtilizationPercentage: 90
+
+env:
+  AWS_REGION: us-west-2
+  LOG4J_FORMAT_MSG_NO_LOOKUPS: true

@@ -1,0 +1,17 @@
+plugins {
+    id 'com.gradle.enterprise' version '3.5'
+}
+rootProject.name = 'Springboot_Skeleton_Service'
+buildCache {
+    local {
+        enabled = false
+    }
+    remote(HttpBuildCache) {
+        push = true
+        url = 'http://gradle-cache.india.atlas-antelope.com:8885/cache/'
+        credentials {
+            username = 'gradle_user'
+            password = 'gradle_password'
+        }
+    }
+}
